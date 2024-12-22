@@ -9,6 +9,7 @@ func main() {
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "Hello, World!",
+			"hostname": c.Request.Host,
 		})
 	})
 	router.Run(":8080")
