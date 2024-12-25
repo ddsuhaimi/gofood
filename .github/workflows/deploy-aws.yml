@@ -48,5 +48,5 @@ jobs:
           host: 54.146.186.54
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          command: |
+          script: |
             sudo systemctl restart gofood.service
