@@ -20,8 +20,8 @@ jobs:
 
       - name: Build Binary
         run: |
-          go build -o gofood
-          ls -lh gofood
+          go build -o main main.go
+          ls -lh main
 
       - name: Copy Binary to Server
         uses: appleboy/scp-action@v0.1.7
