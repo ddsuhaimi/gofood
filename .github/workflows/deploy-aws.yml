@@ -31,7 +31,7 @@ jobs:
           target: /home/ubuntu/gofood # Replace with the path where the binary should be copied
 
       - name: Restart Service
-        uses: appleboy/ssh-action@v0.1.12
+        uses: appleboy/ssh-action@v1.2.0
         with:
           host: 54.146.186.54
           username: ubuntu
