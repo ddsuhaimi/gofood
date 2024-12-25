@@ -1,0 +1,40 @@
+name: Deploy Go API
+
+on:
+  push:
+    branches:
+      - master  
+      
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: 1.22.3  # Adjust for your Go version
+
+    - name: Build Binary
+      run: |
+        go build -o gofood main.go
+
+    - name: Copy Binary to Server
+      uses: appleboy/scp-action@v0.2.4
+      with:
+        host: 54.146.186.54
+        username: ubuntu  
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        target: /home/ubuntu/gofood  # Replace with the path where the binary should be copied
+
+    - name: Restart Service
+      uses: appleboy/ssh-action@v0.1.12
+      with:
+        host: 54.146.186.54
+        username: ubuntu
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        command: |
+          sudo systemctl restart gofood.service
