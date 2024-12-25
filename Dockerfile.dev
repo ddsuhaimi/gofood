@@ -1,0 +1,35 @@
+# Stage 1: Builder (Same as production)
+FROM golang:1.23 AS builder
+
+# Set the working directory
+WORKDIR /app
+
+# Copy dependencies files
+COPY go.mod go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Stage 2: Development
+FROM golang:1.23
+
+# Set the working directory
+WORKDIR /app
+
+# Install Air for live-reloading (or other tools)
+RUN go install github.com/air-verse/air@latest
+
+# Copy the go module files (from the builder stage)
+COPY go.mod go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Copy the rest of the source code
+COPY . .
+
+# Expose the application's port
+EXPOSE 8080
+
+# Run Air in development mode for live reloading
+CMD ["air"]

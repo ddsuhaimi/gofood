@@ -23,7 +23,7 @@ func main() {
 		c.JSON(200, gin.H{
 			"message":  "Hello, World!",
 			"hostname": hostname,
-			"test":     "test",
+			"test":     "test5",
 			"serverID": serverID,
 		})
 	})
