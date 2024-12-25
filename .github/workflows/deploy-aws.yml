@@ -23,6 +23,12 @@ jobs:
           go build -o main main.go
           ls -lh main  # Verify binary exists
 
+      - name: Add SSH Key to Agent
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
       - name: List Files (for debugging)
         run: ls -R # Recursively list files to ensure `main` is in the right location
 
@@ -34,6 +40,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: main # Specify the path to the binary
           target: /home/ubuntu/gofood # Path on the EC2 server
+          debug: true
 
       - name: Restart Service
         uses: appleboy/ssh-action@v1.2.0
